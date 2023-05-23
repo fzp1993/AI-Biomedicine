@@ -48,7 +48,7 @@ Advanced Science
 
 ### 模型结构和代码链接
 
-![模型结构图](/pic/ProtMD_framework.png "模型结构")
+<p align="center"><img src="/pic/ProtMD_framework.png" alt="ProtMD_framework" width="450"/></p>
 
 * 代码链接：<https://github.com/smiles724/ProtMD>
 
