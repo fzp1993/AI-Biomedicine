@@ -88,7 +88,7 @@ Nucleic Acids Research
 * **Family**：基于近源的蛋白质进化关系分类。
 * 网址：<https://scop2.mrc-lmb.cam.ac.uk/>
 
-<p align="center"><img src="pic/3LZM_SCOP.png" alt="3LZM的SCOP结果" width="60%"/></p>
+<p align="center"><img src="pic/3LZM_SCOP.png" alt="3LZM的SCOP结果" width="30%"/></p>
 
 ### Modeller
 
