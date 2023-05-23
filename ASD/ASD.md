@@ -44,7 +44,7 @@ Nucleic Acids Research
 ## 数据集
 
 * **下载地址**：<https://mdl.shsmu.edu.cn/ASD/module/download/download.jsp?tabIndex=1>
-* **文件结构**：<p align="center"><img src="pic/Archive_Files_for_ASD.png" alt="文件结构" width="100%"/></p>
+* **文件结构**：<p align="center"><img src="pic/Archive_Files_for_ASD.png" alt="文件结构" width="80%"/></p>
 
 ## 评价指标
 
@@ -88,7 +88,7 @@ Nucleic Acids Research
 * **Family**：基于近源的蛋白质进化关系分类。
 * 网址：<https://scop2.mrc-lmb.cam.ac.uk/>
 
-<p align="center"><img src="pic/3LZM_SCOP.png" alt="3LZM的SCOP结果" width="100%"/></p>
+<p align="center"><img src="pic/3LZM_SCOP.png" alt="3LZM的SCOP结果" width="60%"/></p>
 
 ### Modeller
 
