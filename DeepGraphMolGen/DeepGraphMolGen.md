@@ -30,17 +30,21 @@ Journal of Cheminformatics，2020
 #### 特征表示
 
 * 分子表示为有向图，一个原子表示为一个133维的向量，每个原子都有一个连接它的键，表示为14维向量，因此一个初始原子键特征向量表示为一个133+14维的向量，一共有Nbond个向量，也就是键的个数个向量。每个维度表示一个性质
-  <p align="center"><img src="pic/分子表示的维度含义.png" alt="分子表示的维度含义" width="80%"/></p>
+  
+  <p align="center"><img src="pic/分子表示的维度含义.png" alt="分子表示的维度含义" width="20%"/></p>
 * 初始原子键特征向量包含了重要的分子信息，GCN编码器可以合并到后面的层中
 * 步骤：初始原子键特征向量经过线性层和一个RelU激活函数，得到0深度的信息向量，然后一个GCN将相邻键信息求和，然后重复这个步骤到N-1层深度，最后是一个Dense层、ReLU和Dropout，得到分子图嵌入表示
-  <p align="center"><img src="pic/特征表示图.png" alt="特征表示图" width="80%"/></p>
+  
+  <p align="center"><img src="pic/特征表示图.png" alt="特征表示图" width="20%"/></p>
 
 #### 回归
 
 * 做性质预测，将表示通过全连接层，然后最后出一个预测分数，预测的是Ki值
 * 损失函数有说法，说是Ki值的真实值是实验得到的，有实验误差，也就是训练集中有异常值，用一般的损失函数训练的话，泛化性不好。因此用robust loss来训练，包括pseudo-huber loss、cauchy loss等，但是每种损失函数都有超参数需要手动调，费时间。所以用了一个general robust loss，也就是用一个shape parameter $\alpha$ 来控制robustness（根据文中的意思就是 $\alpha$ 取不同值就是不同的robust loss）和一个scale parameter c来把loss的二次碗（quadratic bowl）控制在x=0的附近。然后文中把这两个超参也作为梯度训练的参数了
-  <p align="center"><img src="pic/回归图.png" alt="回归图" width="80%"/></p>
-  <p align="center"><img src="pic/loss函数.png" alt="loss函数" width="80%"/></p>
+  
+  <p align="center"><img src="pic/回归图.png" alt="回归图" width="20%"/></p>
+  
+  <p align="center"><img src="pic/loss函数.png" alt="loss函数" width="20%"/></p>
 
 ### 分子生成
 
@@ -55,18 +59,25 @@ Journal of Cheminformatics，2020
 * 每一步的state是当前分子图
 * reward包括intermediate reward和final reward。intermediate reward的含义是通过stepwise validity check就加一个小定值。final reward包括训练模型预测的pki、validity reward（是否有空间应变和是否违反锌官能团）、药物相似性QED的定量估计和合成可及性SA的评分。
 * 还有adversarial reward，目的是使生成的分子类似于给定的一组分子，它设置为GAN的loss，文中表示为
-  <p align="center"><img src="pic/文中GAN.png" alt="文中GAN" width="80%"/></p>
+  
+  <p align="center"><img src="pic/文中GAN.png" alt="文中GAN" width="20%"/></p>
   这里面的D是一个判别器网络，包括GCN和FFN，用来输出生成的分子是真是假。
 * 在GCN中，是一个深度为L的网络，第l+1层的节点嵌入表示为
-  <p align="center"><img src="pic/GCN分子生成.png" alt="GCN分子生成" width="80%"/></p>
+  
+  <p align="center"><img src="pic/GCN分子生成.png" alt="GCN分子生成" width="20%"/></p>
   Ei是第i个切片（边不是有三个类型吗，这就是第i个类型）加上单位阵。Di是Ei在第三个维度上的求和（就是一个求均值，可以理解为融合不同节点特征）。然后DiEiDi计算成一个权值给上一步的节点嵌入表示Hl，Wi是训练参数。Hi是一个（n+c）*d的矩阵，n是当前分子中节点个数（也就是说，下一步迭代这个n就有可能是n+1，因为加入了新的原子，但如果没有加入新原子，而是和老原子之间成键，那还是n），c是可能加入的原子类型个数（C,N,O），经过AGG生成节点表示，这个过程循环L次。
 * 然后每一步的节点嵌入输入给四个MLP，第一个MLP是为了基于当前分子找到下一步需要成键的原子对中的第一个原子；第二个MLP是为了基于当前分子找到第二个原子（可以是老原子，也可以是新原子CNO）；第三个MLP是为了找到这个原子对的键的类型；第四个MLP是为了看是否结束生成过程。
-  <p align="center"><img src="pic/第一个MLP.png" alt="第一个MLP" width="80%"/></p>
-  <p align="center"><img src="pic/第二个MLP.png" alt="第二个MLP" width="80%"/></p>
-  <p align="center"><img src="pic/第三个和第四个MLP.png" alt="第三个和第四个MLP" width="80%"/></p>
+  
+  <p align="center"><img src="pic/第一个MLP.png" alt="第一个MLP" width="20%"/></p>
+  
+  <p align="center"><img src="pic/第二个MLP.png" alt="第二个MLP" width="20%"/></p>
+  
+  <p align="center"><img src="pic/第三个和第四个MLP.png" alt="第三个和第四个MLP" width="20%"/></p>
 * 使用标准的PPO来训练策略梯度，让我不明白的是V怎么算的，是不是前面说的那几个reward，很简单的那种相加。同时还加了一个专家系统
-  <p align="center"><img src="pic/ppo.png" alt="ppo" width="80%"/></p>
-  <p align="center"><img src="pic/专家系统.png" alt="专家系统" width="80%"/></p>
+  
+  <p align="center"><img src="pic/ppo.png" alt="ppo" width="20%"/></p>
+  
+  <p align="center"><img src="pic/专家系统.png" alt="专家系统" width="20%"/></p>
 
 ## 数据集
 
