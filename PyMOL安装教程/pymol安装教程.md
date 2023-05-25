@@ -3,10 +3,14 @@
 * 下载Anaconda，并创建Python 3.11的环境。如果直接在电脑上配置Python环境也可以，不过Anaconda更方便多环境管理。
 
 * 下载安装包，包括numpy+mkl、Pmw、PyMOL和pymol_launcher
+  
   numpy+mkl：<https://download.lfd.uci.edu/pythonlibs/archived/numpy-1.22.4+mkl-cp311-cp311-win_amd64.whl>
+  
   pmw：<https://download.lfd.uci.edu/pythonlibs/archived/Pmw-2.0.1-py3-none-any.whl>
+  
   pymol：<https://download.lfd.uci.edu/pythonlibs/archived/pymol_launcher-2.5-cp311-cp311-win_amd64.whl>
-  pymol_launcher：https://download.lfd.uci.edu/pythonlibs/archived/pymol_launcher-2.5-cp311-cp311-win_amd64.whl
+  
+  pymol_launcher：<https://download.lfd.uci.edu/pythonlibs/archived/pymol_launcher-2.5-cp311-cp311-win_amd64.whl>
 
 * 将安装包放到创建好的Python环境中，例如E:\anaconda\envs\pymol\Scripts，这里的pymol是我给环境起的名字。
   
